@@ -164,7 +164,7 @@ function Hero() {
         <img
           src={heroGlow}
           alt=""
-          className="absolute w-full h-full object-cover opacity-80 spin-reverse-slow plasma-flow plasma-morph"
+          className="absolute w-full h-full object-cover opacity-80 spin-reverse-slow opacity-70 mix-blend-screen glow-pulse"
         />
 
         <img
