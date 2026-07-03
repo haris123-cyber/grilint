@@ -1,48 +1,63 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
+import { useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import pline from "../../assets/pline.png";
-import idia from "../../assets/idia.png";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export function Footer() {
+  const footerRef = useRef(null);
+
+  useGSAP(() => {
+    gsap.fromTo(
+      ".footer-anim",
+      { y: 50, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        stagger: 0.1,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: footerRef.current,
+          start: "top 70%", // Start animation when footer wrapper is partially in view
+        },
+      }
+    );
+  }, { scope: footerRef });
+
   return (
-    <footer className="relative px-6 md:px-10 pt-24 pb-10 border-t border-border bg-forest/20 noise overflow-hidden">
-      <h2 className="text-display text-[22vw] md:text-[16vw] leading-[0.85] text-mint mix-blend-screen">
-        BIG VIBES.
-        <br />
-        <span className="text-foreground">BIGGER IDEAS.</span>
-      </h2>
+    <footer ref={footerRef} className="w-full h-screen px-6 md:px-10 pt-24 pb-10 border-t border-border bg-forest/20 noise overflow-hidden flex flex-col justify-between relative">
+      <div className="flex-1 flex flex-col justify-center">
+        <h2 className="text-display text-[22vw] md:text-[16vw] leading-[0.85] text-mint mix-blend-screen footer-anim">
+          BIG VIBES.
+          <br />
+          <span className="text-foreground">BIGGER IDEAS.</span>
+        </h2>
+      </div>
+
       {/* 3D Icon */}
       <img
         src={pline}
         alt=""
         className="
 absolute
-top-20
-sm:top-20
-md:top-16
-lg:top-20
-xl:top-24
-
+top-1/3
 right-10
 sm:right-10
-md:right-[300px]
-lg:right-[260px]
-xl:right-[520px]
-2xl:right-[45%]
-
-w-10
-sm:w-10
-md:w-15
-lg:w-20 
-xl:w-24
-2xl:w-38
-
+md:right-[20%]
+w-16
+sm:w-20
+md:w-32
 pointer-events-none
 animate-float
+footer-anim
 "
       />
-    
 
-      <div className="mt-16 grid grid-cols-12 gap-6 text-sm">
+      <div className="mt-auto grid grid-cols-12 gap-6 text-sm footer-anim">
         <div className="col-span-12 md:col-span-4">
           <p className="text-display text-2xl text-mint">GRITINK®</p>
           <p className="mt-2 text-foreground/70 max-w-xs">
@@ -94,7 +109,7 @@ animate-float
             </li>
           </ul>
         </div>
-        <div className="col-span-12 md:col-span-4 text-foreground/60">
+        <div className="col-span-12 md:col-span-4 text-foreground/60 flex items-end">
           © {new Date().getFullYear()} GritInk Studio. All ideas reserved.
         </div>
       </div>

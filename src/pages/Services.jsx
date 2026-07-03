@@ -1,27 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
 import { PageHero } from "@/components/site/PageHero";
 
-export const Route = createFileRoute("/services")({
-  head: () => ({
-    meta: [
-      { title: "Services — GritInk Studio" },
-      {
-        name: "description",
-        content:
-          "Brand identity, web & product, performance ads, content, SEO and motion — full-stack digital marketing built for traction.",
-      },
-      { property: "og:title", content: "Services — GritInk Studio" },
-      {
-        property: "og:description",
-        content: "Six rooms, one workshop. Pick a service or knock down the walls.",
-      },
-    ],
-  }),
-  component: ServicesPage,
-});
 
 const services = [
   {
@@ -85,7 +67,7 @@ const process = [
   },
 ];
 
-function ServicesPage() {
+export default function ServicesPage() {
   return (
     <main className="min-h-screen bg-background text-foreground overflow-x-clip">
       <Nav />

@@ -1,24 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
 import { PageHero } from "@/components/site/PageHero";
 
-export const Route = createFileRoute("/studio")({
-  head: () => ({
-    meta: [
-      { title: "Studio — GritInk" },
-      {
-        name: "description",
-        content:
-          "GritInk is a 22-person studio across Brooklyn, Lisbon and Bangalore making brands that refuse to whisper.",
-      },
-      { property: "og:title", content: "Studio — GritInk" },
-      { property: "og:description", content: "Who we are, how we work, and why we don't whisper." },
-    ],
-  }),
-  component: StudioPage,
-});
 
 const values = [
   {
@@ -67,7 +52,7 @@ const collabs = [
   "Outbound",
 ];
 
-function StudioPage() {
+export default function StudioPage() {
   return (
     <main className="min-h-screen bg-background text-foreground overflow-x-clip">
       <Nav />

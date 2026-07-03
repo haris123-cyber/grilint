@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
@@ -8,25 +8,6 @@ import project2 from "@/assets/project-2.jpg";
 import project3 from "@/assets/project-3.jpg";
 import project4 from "@/assets/project-4.jpg";
 
-export const Route = createFileRoute("/work")({
-  head: () => ({
-    meta: [
-      { title: "Work — GritInk Studio" },
-      {
-        name: "description",
-        content:
-          "Selected case studies: brand systems, websites, performance campaigns and motion work shipped by GritInk.",
-      },
-      { property: "og:title", content: "Work — GritInk Studio" },
-      {
-        property: "og:description",
-        content: "A close look at the brands, sites and campaigns we've shipped.",
-      },
-      { property: "og:image", content: project1 },
-    ],
-  }),
-  component: WorkPage,
-});
 
 const work = [
   {
@@ -73,7 +54,7 @@ const work = [
   },
 ];
 
-function WorkPage() {
+export default function WorkPage() {
   return (
     <main className="min-h-screen bg-background text-foreground overflow-x-clip">
       <Nav />

@@ -1,5 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import heroGlow from "@/assets/hero-glow.jpg";
 import project1 from "@/assets/project-1.jpg";
@@ -10,25 +9,13 @@ import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
 import heroVideo from "../assets/hero-video.mp4";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { TransitionSection } from "@/components/site/TransitionSection";
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "GritInk — Strategy-led, creatively driven digital growth" },
-      {
-        name: "description",
-        content:
-          "GritInk is a digital marketing studio building loud brands, sharp campaigns and websites that convert. Designs that slap. Strategy that scales.",
-      },
-      { property: "og:title", content: "GritInk — Designs that slap. Strategy that scales." },
-      {
-        property: "og:description",
-        content: "A strategy-led, creatively driven agency for your digital growth.",
-      },
-    ],
-  }),
-  component: Index,
-});
+gsap.registerPlugin(ScrollTrigger);
+
 
 const services = [
   {
@@ -109,18 +96,59 @@ const collabs = [
   "Outbound",
 ];
 
-function Index() {
+export default function Index() {
+  const mainRef = useRef(null);
+  const contentAboveRef = useRef(null);
+  const transitionRef = useRef(null);
+
+  useGSAP(() => {
+    // 1. Scale down the content above
+    gsap.to(contentAboveRef.current, {
+      scale: 0.95,
+      borderRadius: "40px",
+      boxShadow: "0px 20px 50px rgba(0,0,0,0.5)",
+      ease: "power2.inOut",
+      scrollTrigger: {
+        trigger: transitionRef.current,
+        start: "top bottom", // when transition section hits bottom of viewport
+        end: "top top",      // until it reaches the top
+        scrub: true,
+      }
+    });
+
+    // 2. Pin the transition section
+    ScrollTrigger.create({
+      trigger: transitionRef.current,
+      start: "top top",
+      end: "+=100%", // pin for 100vh
+      pin: true,
+      pinSpacing: true, // adds spacer so it stays pinned while scrolling
+    });
+  }, { scope: mainRef });
+
   return (
-    <main className="min-h-screen bg-background text-foreground overflow-x-clip">
-      <Nav />
-      <Hero />
-      <ReelBlock />
-      <Marquee />
-      <Services />
-      <Projects />
-      <Collabs />
-      <Contact />
-      <Footer />
+    <main ref={mainRef} className="min-h-screen bg-background text-foreground overflow-x-clip relative z-0">
+      <div ref={contentAboveRef} className="bg-background relative z-20 origin-bottom transform-gpu overflow-hidden pb-10 shadow-2xl">
+        <Nav />
+        <Hero />
+        <ReelBlock />
+        <Marquee />
+        <Services />
+        <Projects />
+        <Collabs />
+        <Contact />
+      </div>
+
+      <div ref={transitionRef} className="relative z-10 bg-background">
+        <TransitionSection />
+      </div>
+
+      {/* Footer Reveal Wrapper */}
+      <div className="relative z-0 h-screen w-full" style={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }}>
+        <div className="fixed bottom-0 left-0 w-full h-screen">
+          <Footer />
+        </div>
+      </div>
     </main>
   );
 }

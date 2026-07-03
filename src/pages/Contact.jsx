@@ -1,27 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
 import { PageHero } from "@/components/site/PageHero";
 
-export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact — GritInk Studio" },
-      {
-        name: "description",
-        content:
-          "Tell us about your project. GritInk replies within one business day from Brooklyn, Lisbon or Bangalore.",
-      },
-      { property: "og:title", content: "Contact — GritInk Studio" },
-      { property: "og:description", content: "Lowkey excited to hear from you." },
-    ],
-  }),
-  component: ContactPage,
-});
 
-function ContactPage() {
+export default function ContactPage() {
   const [budget, setBudget] = useState(null);
   const [sent, setSent] = useState(false);
 
