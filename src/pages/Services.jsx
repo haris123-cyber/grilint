@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import { Nav } from "@/components/site/Nav";
-import { Footer } from "@/components/site/Footer";
+import { PageLayout } from "@/components/site/PageLayout";
 import { Reveal } from "@/components/site/Reveal";
 import { PageHero } from "@/components/site/PageHero";
 
@@ -69,8 +68,7 @@ const process = [
 
 export default function ServicesPage() {
   return (
-    <main className="min-h-screen bg-background text-foreground overflow-x-clip">
-      <Nav />
+    <PageLayout showTransition={false}>
       <PageHero
         eyebrow="[ 02 — What we do ]"
         title={
@@ -148,7 +146,6 @@ export default function ServicesPage() {
         </Reveal>
       </section>
 
-      <Footer />
-    </main>
+    </PageLayout>
   );
 }

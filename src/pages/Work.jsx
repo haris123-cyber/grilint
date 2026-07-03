@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import { Nav } from "@/components/site/Nav";
-import { Footer } from "@/components/site/Footer";
+import { PageLayout } from "@/components/site/PageLayout";
 import { Reveal } from "@/components/site/Reveal";
 import { PageHero } from "@/components/site/PageHero";
 import project1 from "@/assets/project-1.jpg";
@@ -56,8 +55,7 @@ const work = [
 
 export default function WorkPage() {
   return (
-    <main className="min-h-screen bg-background text-foreground overflow-x-clip">
-      <Nav />
+    <PageLayout showTransition={false}>
       <PageHero
         eyebrow="[ 01 — Selected work ]"
         title={
@@ -120,7 +118,6 @@ export default function WorkPage() {
         </Reveal>
       </section>
 
-      <Footer />
-    </main>
+    </PageLayout>
   );
 }

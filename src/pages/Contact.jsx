@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Nav } from "@/components/site/Nav";
-import { Footer } from "@/components/site/Footer";
+import { PageLayout } from "@/components/site/PageLayout";
 import { Reveal } from "@/components/site/Reveal";
 import { PageHero } from "@/components/site/PageHero";
 
@@ -10,8 +9,7 @@ export default function ContactPage() {
   const [sent, setSent] = useState(false);
 
   return (
-    <main className="min-h-screen bg-background text-foreground overflow-x-clip">
-      <Nav />
+    <PageLayout showTransition={false}>
       <PageHero
         eyebrow="[ 04 — Say hi ]"
         title={
@@ -132,8 +130,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <Footer />
-    </main>
+    </PageLayout>
   );
 }
 

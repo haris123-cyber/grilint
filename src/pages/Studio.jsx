@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import { Nav } from "@/components/site/Nav";
-import { Footer } from "@/components/site/Footer";
+import { PageLayout } from "@/components/site/PageLayout";
 import { Reveal } from "@/components/site/Reveal";
 import { PageHero } from "@/components/site/PageHero";
 
@@ -54,8 +53,7 @@ const collabs = [
 
 export default function StudioPage() {
   return (
-    <main className="min-h-screen bg-background text-foreground overflow-x-clip">
-      <Nav />
+    <PageLayout showTransition={false}>
       <PageHero
         eyebrow="[ 03 — The studio ]"
         title={
@@ -183,7 +181,6 @@ export default function StudioPage() {
         </Reveal>
       </section>
 
-      <Footer />
-    </main>
+    </PageLayout>
   );
 }
