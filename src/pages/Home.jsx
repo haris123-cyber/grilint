@@ -139,9 +139,7 @@ export default function Index() {
         <Contact />
       </div>
 
-      <div ref={transitionRef} className="relative z-10 bg-background">
-        <TransitionSection />
-      </div>
+
 
       {/* Footer Reveal Wrapper */}
       <div className="relative z-0 h-screen w-full" style={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }}>
@@ -164,7 +162,7 @@ function Hero() {
         <img
           src={heroGlow}
           alt=""
-          className="absolute w-full h-full object-cover opacity-80 spin-reverse-slow opacity-70 mix-blend-screen glow-pulse"
+          className="absolute w-full h-full object-cover opacity-80 spin-reverse-slow plasma-flow plasma-morph"
         />
 
         <img
