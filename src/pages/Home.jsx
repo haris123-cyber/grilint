@@ -13,6 +13,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { PageLayout } from "@/components/site/PageLayout";
+import { Vidio } from "@/components/site/Vidio";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -100,7 +101,7 @@ export default function Index() {
   return (
     <PageLayout>
       <Hero />
-      <ReelBlock />
+      <Vidio videoSrc={heroVideo} />
       <Marquee />
       <Services />
       <Projects />
@@ -176,139 +177,6 @@ function Hero() {
         </div>
       </div>
     </section>
-  );
-}
-
-function ReelBlock() {
-  const containerRef = useRef(null);
-  const [progress, setProgress] = useState(0);
-  const [device, setDevice] = useState("desktop");
-
-  useEffect(() => {
-    const checkDevice = () => {
-      if (window.innerWidth < 768) setDevice("mobile");
-      else if (window.innerWidth < 1024) setDevice("tablet");
-      else setDevice("desktop");
-    };
-    checkDevice();
-    window.addEventListener("resize", checkDevice);
-
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-
-      let p = 0;
-      if (rect.top <= 0) {
-        const totalDistance = rect.height - windowHeight;
-        p = Math.abs(rect.top) / totalDistance;
-      }
-      setProgress(Math.min(Math.max(p, 0), 1));
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", checkDevice);
-    };
-  }, []);
-
-  const getStartWidth = () => {
-    if (device === "mobile") return "65vw";
-    if (device === "tablet") return "50vw";
-    return "40vw";
-  };
-
-  const getEndWidth = () => {
-    if (device === "mobile") return "90vw";
-    if (device === "tablet") return "80vw";
-    return "75vw";
-  };
-
-  const getAspect = () => {
-    if (device === "mobile") return 9 / 16;
-    if (device === "tablet") return 4 / 3;
-    return 16 / 9;
-  };
-
-  const getStartTop = () => {
-    if (device === "mobile") return "25vh";
-    if (device === "tablet") return "22vh";
-    return "20vh";
-  };
-
-  return (
-    <>
-      <section ref={containerRef} className="relative h-[200vh] md:h-[250vh]">
-        <div className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden">
-          {/* Header container */}
-          <div
-            className="absolute top-24 md:top-32 left-0 w-full px-6 md:px-10 z-30 pointer-events-none"
-            style={{ opacity: Math.max(0, 1 - progress * 4) }}
-          >
-            <div className="max-w-7xl mx-auto grid grid-cols-12 gap-6 items-end">
-              <div className="col-span-12 md:col-span-7">
-                <p className="text-xs uppercase tracking-[0.3em] text-mint mb-3">
-                  [ Studio reel · 2026 ]
-                </p>
-                <h2 className="text-display text-5xl md:text-7xl leading-[0.9]">
-                  One minute,
-                  <br />
-                  <span className="text-mint font-space-grotesk font-light">
-                    a lot of receipts.
-                  </span>
-                </h2>
-              </div>
-              <div className="col-span-12 md:col-span-4 md:col-start-9 text-foreground/70 hidden md:block">
-                Brands launched, campaigns shipped, and a few late-night ideas that actually worked.
-                Press play.
-              </div>
-            </div>
-          </div>
-
-          {/* Glow behind video */}
-          <div
-            className="absolute inset-x-0 mx-auto rounded-full bg-mint/20 blur-[100px] pointer-events-none"
-            style={{
-              width: `calc(${getStartWidth()} * ${1 - progress} + ${getEndWidth()} * ${progress})`,
-              height: `calc((${getStartWidth()} * ${1 - progress} + ${getEndWidth()} * ${progress}) / ${getAspect()})`,
-              top: `calc(50% + ${getStartTop()} * ${1 - progress})`,
-              transform: `translateY(-50%)`,
-              opacity: 1 - progress,
-            }}
-          />
-
-          {/* Video Container */}
-          <div
-            className="absolute inset-x-0 mx-auto overflow-hidden border-border z-20 flex items-center justify-center bg-mint/5"
-            style={{
-              width: `calc(${getStartWidth()} * ${1 - progress} + ${getEndWidth()} * ${progress})`,
-              height: `calc((${getStartWidth()} * ${1 - progress} + ${getEndWidth()} * ${progress}) / ${getAspect()})`,
-              top: `calc(50% + ${getStartTop()} * ${1 - progress})`,
-              transform: `translateY(-50%)`,
-              borderRadius: `calc(2rem * ${1 - progress})`,
-              borderWidth: `${1 - progress}px`,
-            }}
-          >
-            <div
-              className="absolute inset-0 bg-mint/10 pointer-events-none transition-opacity duration-300"
-              style={{ opacity: 1 - progress }}
-            />
-            <video
-              src={heroVideo}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          </div>
-        </div>
-      </section>
-    </>
   );
 }
 
