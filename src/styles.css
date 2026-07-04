@@ -151,6 +151,12 @@
 @layer base {
   * {
     border-color: var(--color-border);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
   }
 
   body {
@@ -158,6 +164,7 @@
     color: var(--color-foreground);
     font-family: "Space Grotesk", sans-serif;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
 
   h1,

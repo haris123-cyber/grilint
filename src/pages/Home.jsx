@@ -139,7 +139,7 @@ function Hero() {
 
           <h1 className="text-display text-[18vw] md:text-[12vw] lg:text-[10vw] leading-[0.8] text-foreground">
             <span className="block">IDEAS</span>
-            <span className="block pl-[8vw] pb-[2vw] md:pl-[5vw] text-mint font-space-grotesk font-light text-[11vw] md:text-[6.5vw] lg:text-[5.5vw] tracking-normal">
+            <span className="block pl-[8vw] pb-[3vw] md:pl-[5vw] text-mint font-space-grotesk font-light text-[11vw] md:text-[6.5vw] lg:text-[5.5vw]  tracking-normal">
               that ignite.
             </span>
             <span className="block">GROWTH</span>
@@ -197,7 +197,7 @@ function Marquee() {
           <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
-          <div className="flex gap-0 marquee whitespace-nowrap items-center">
+          <div className="flex gap-0 marquee whitespace-nowrap items-center" style={{ animationDuration: "10s" }}>
             {row.map((w, i) => (
               <span key={i} className="flex items-center">
                 <span className="text-display text-3xl md:text-5xl uppercase tracking-[0.15em] text-foreground/80 hover:text-mint transition-colors duration-300 cursor-default px-8 md:px-12">
@@ -443,7 +443,7 @@ function Collabs() {
           <div>
 
             <h2 className="text-display text-5xl md:text-7xl lg:text-8xl">
-              Brands that <span className="text-mint">trust us</span>
+              Brands that <span className="text-mint font-space-grotesk font-light">trust us</span>
               <br className="hidden md:block" /> with the mic.
             </h2>
           </div>
