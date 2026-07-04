@@ -3,7 +3,6 @@ import { PageLayout } from "@/components/site/PageLayout";
 import { Reveal } from "@/components/site/Reveal";
 import { PageHero } from "@/components/site/PageHero";
 
-
 const services = [
   {
     num: "01",
@@ -70,7 +69,6 @@ export default function ServicesPage() {
   return (
     <PageLayout showTransition={false}>
       <PageHero
-        eyebrow="[ 02 — What we do ]"
         title={
           <>
             <span className="block">SIX ROOMS,</span>
@@ -83,7 +81,7 @@ export default function ServicesPage() {
       />
 
       <section className="px-6 md:px-10 pb-24">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-px bg-border">
           {services.map((s, i) => (
             <Reveal
               as="article"
@@ -117,25 +115,26 @@ export default function ServicesPage() {
       </section>
 
       <section className="px-6 md:px-10 py-24 bg-ink/40 border-y border-border">
-        <Reveal>
-          <p className="text-xs uppercase tracking-[0.3em] text-mint mb-4">[ How we work ]</p>
-          <h2 className="text-display text-5xl md:text-7xl mb-16">A three-step receipt.</h2>
-        </Reveal>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {process.map((p, i) => (
-            <Reveal key={p.step} delay={i * 120}>
-              <div className="rounded-3xl border border-border bg-card/60 p-8 h-full tilt-hover">
-                <div className="text-mint text-display text-6xl mb-6">{p.step}</div>
-                <h3 className="text-display text-3xl mb-3">{p.title}</h3>
-                <p className="text-foreground/70">{p.body}</p>
-              </div>
-            </Reveal>
-          ))}
+        <div className="max-w-7xl mx-auto">
+          <Reveal>
+            <h2 className="text-display text-5xl md:text-7xl mb-16">A three-step receipt.</h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {process.map((p, i) => (
+              <Reveal key={p.step} delay={i * 120}>
+                <div className="rounded-3xl border border-border bg-card/60 p-8 h-full tilt-hover">
+                  <div className="text-mint text-display text-6xl mb-6">{p.step}</div>
+                  <h3 className="text-display text-3xl mb-3">{p.title}</h3>
+                  <p className="text-foreground/70">{p.body}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
       <section className="px-6 md:px-10 py-24">
-        <Reveal className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <Reveal className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <h2 className="text-display text-4xl md:text-6xl">Ready to knock down a wall?</h2>
           <Link
             to="/contact"
@@ -145,7 +144,6 @@ export default function ServicesPage() {
           </Link>
         </Reveal>
       </section>
-
     </PageLayout>
   );
 }

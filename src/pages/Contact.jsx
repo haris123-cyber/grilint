@@ -3,7 +3,6 @@ import { PageLayout } from "@/components/site/PageLayout";
 import { Reveal } from "@/components/site/Reveal";
 import { PageHero } from "@/components/site/PageHero";
 
-
 export default function ContactPage() {
   const [budget, setBudget] = useState(null);
   const [sent, setSent] = useState(false);
@@ -24,7 +23,7 @@ export default function ContactPage() {
       />
 
       <section className="px-6 md:px-10 pb-32">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10">
           <div className="col-span-1 md:col-span-5 space-y-10">
             <Reveal>
               <p className="text-xs uppercase tracking-[0.3em] text-mint mb-3">Direct line</p>
@@ -129,7 +128,6 @@ export default function ContactPage() {
           </Reveal>
         </div>
       </section>
-
     </PageLayout>
   );
 }

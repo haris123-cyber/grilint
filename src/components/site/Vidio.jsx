@@ -1,23 +1,33 @@
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function Vidio({ videoSrc }) {
-  const outerRef = useRef(null);  // scrollable tall container
+  const isMobile = useIsMobile();
+
+  // Force full re-initialization of GSAP Context by using the key prop
+  return (
+    <VidioSection key={isMobile ? "mobile" : "desktop"} isMobile={isMobile} videoSrc={videoSrc} />
+  );
+}
+
+function VidioSection({ isMobile, videoSrc }) {
+  const outerRef = useRef(null); // scrollable tall container
   const stickyRef = useRef(null); // sticky viewport-height panel
-  const phoneRef = useRef(null);
+  const deviceRef = useRef(null);
   const glowRef = useRef(null);
   const headerRef = useRef(null);
 
   useEffect(() => {
     const outer = outerRef.current;
-    const phone = phoneRef.current;
-    if (!outer || !phone) return;
+    const device = deviceRef.current;
+    if (!outer || !device) return;
 
     // start states
-    gsap.set(phone, { scale: 0.72, y: 140, opacity: 0, rotateY: -25 });
+    gsap.set(device, { scale: 0.72, y: 140, opacity: 0, rotateY: -25 });
     gsap.set(headerRef.current, { opacity: 0, y: 40 });
 
     const ctx = gsap.context(() => {
@@ -32,22 +42,42 @@ export function Vidio({ videoSrc }) {
 
       // Step 1 (0 → 0.22): Fade in + rise
       tl.to(headerRef.current, { opacity: 1, y: 0, duration: 0.22, ease: "power2.out" }, 0)
-        .to(phone, { scale: 1, y: 0, opacity: 1, rotateY: 0, duration: 0.22, ease: "power3.out" }, 0)
+        .to(
+          device,
+          { scale: 1, y: 0, opacity: 1, rotateY: 0, duration: 0.22, ease: "power3.out" },
+          0,
+        )
         .to(glowRef.current, { opacity: 1, duration: 0.2 }, 0);
 
       // Step 2 (0.22 → 0.52): 360° rotation
-      tl.to(phone, { rotateY: 360, duration: 0.3, ease: "none" }, 0.22);
+      tl.to(device, { rotateY: 360, duration: 0.3, ease: "none" }, 0.22);
 
       // Step 3 (0.52 → 0.7): Zoom in + tilt
-      tl.to(phone, { scale: 1.18, rotateY: 415, rotateX: 7, duration: 0.18, ease: "power2.inOut" }, 0.52);
+      tl.to(
+        device,
+        {
+          scale: 1.18,
+          rotateY: 415,
+          rotateX: 7,
+          duration: 0.18,
+          ease: "power2.inOut",
+        },
+        0.52,
+      );
 
       // Step 4 (0.7 → 0.84): Hold straight
-      tl.to(phone, { rotateY: 360, rotateX: 0, scale: 1.06, duration: 0.14, ease: "power2.out" }, 0.7);
+      tl.to(
+        device,
+        { rotateY: 360, rotateX: 0, scale: 1.06, duration: 0.14, ease: "power2.out" },
+        0.7,
+      );
 
       // Step 5 (0.84 → 1): Fade out
-      tl.to(phone, { scale: 0.82, y: -80, opacity: 0, duration: 0.16, ease: "power2.in" }, 0.84)
-        .to(headerRef.current, { opacity: 0, y: -30, duration: 0.14 }, 0.86);
-
+      tl.to(
+        device,
+        { scale: 0.82, y: -80, opacity: 0, duration: 0.16, ease: "power2.in" },
+        0.84,
+      ).to(headerRef.current, { opacity: 0, y: -30, duration: 0.14 }, 0.86);
     }, outer);
 
     return () => ctx.revert();
@@ -56,22 +86,17 @@ export function Vidio({ videoSrc }) {
   return (
     /* Tall scrollable container — 4× viewport height */
     <div ref={outerRef} style={{ height: "400vh" }} className="relative">
-
       {/* Sticky full-screen panel */}
       <div
         ref={stickyRef}
         className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center"
         style={{
-          background:
-            "radial-gradient(ellipse at 50% 70%, #071410 0%, #040d0b 50%, #000000 100%)",
+          background: "radial-gradient(ellipse at 50% 70%, #071410 0%, #040d0b 50%, #000000 100%)",
           perspective: "1100px",
         }}
       >
         {/* ── Ambient glows ── */}
-        <div
-          ref={glowRef}
-          className="absolute inset-0 pointer-events-none opacity-0"
-        >
+        <div ref={glowRef} className="absolute inset-0 pointer-events-none opacity-0">
           <div
             className="absolute rounded-full"
             style={{
@@ -102,179 +127,276 @@ export function Vidio({ videoSrc }) {
           className="absolute top-0 left-0 w-full px-6 md:px-10 pt-14 md:pt-20 z-20 pointer-events-none"
         >
           <div className="max-w-7xl mx-auto">
-            <p className="text-[10px] uppercase tracking-[0.4em] text-mint/70 mb-3 font-mono">
-              [ Studio Reel · 2026 ]
-            </p>
+
             <h2 className="text-display text-4xl md:text-6xl lg:text-7xl leading-[0.9]">
               One minute,
               <br />
-              <span className="text-mint font-space-grotesk font-light">
-                a lot of receipts.
-              </span>
+              <span className="text-mint font-space-grotesk font-light">a lot of receipts.</span>
             </h2>
           </div>
         </div>
 
-        {/* ── Phone ── */}
-        <div
-          ref={phoneRef}
-          style={{
-            width: "clamp(190px, 26vw, 330px)",
-            aspectRatio: "9 / 19.5",
-            transformStyle: "preserve-3d",
-            willChange: "transform, opacity",
-            position: "relative",
-            top: "10%"
-          }}
-        >
-          {/* Body */}
+        {/* ── Laptop / Phone device container ── */}
+        {isMobile ? (
+          /* ── Phone ── */
           <div
-            className="w-full h-full relative flex flex-col"
+            ref={deviceRef}
             style={{
-              background:
-                "linear-gradient(145deg, #1c1c1e 0%, #080808 40%, #131313 100%)",
-              borderRadius: "clamp(26px, 6%, 46px)",
-              border: "1px solid rgba(255,255,255,0.07)",
-              boxShadow: `
-                0 0 0 1px rgba(255,255,255,0.04),
-                0 40px 90px rgba(0,0,0,0.85),
-                0 10px 30px rgba(0,0,0,0.6),
-                inset 0 1px 0 rgba(255,255,255,0.09),
-                inset 0 -1px 0 rgba(255,255,255,0.02)
-              `,
+              width: "clamp(190px, 26vw, 330px)",
+              aspectRatio: "9 / 19.5",
+              transformStyle: "preserve-3d",
+              willChange: "transform, opacity",
+              position: "relative",
+              top: "10%",
             }}
           >
-            {/* Gloss reflection */}
+            {/* Body */}
             <div
-              className="absolute inset-0 pointer-events-none rounded-[inherit]"
+              className="w-full h-full relative flex flex-col"
               style={{
-                background:
-                  "linear-gradient(130deg, rgba(255,255,255,0.08) 0%, transparent 55%, rgba(255,255,255,0.02) 100%)",
+                background: "linear-gradient(145deg, #1c1c1e 0%, #080808 40%, #131313 100%)",
+                borderRadius: "clamp(26px, 6%, 46px)",
+                border: "1px solid rgba(255,255,255,0.07)",
+                boxShadow: `
+                  0 0 0 1px rgba(255,255,255,0.04),
+                  0 40px 90px rgba(0,0,0,0.85),
+                  0 10px 30px rgba(0,0,0,0.6),
+                  inset 0 1px 0 rgba(255,255,255,0.09),
+                  inset 0 -1px 0 rgba(255,255,255,0.02)
+                `,
               }}
-            />
-
-            {/* Buttons – left volume */}
-            {[["22%", "8%"], ["33%", "12%"], ["47%", "12%"]].map(([top, h], i) => (
+            >
+              {/* Gloss reflection */}
               <div
-                key={i}
+                className="absolute inset-0 pointer-events-none rounded-[inherit]"
+                style={{
+                  background:
+                    "linear-gradient(130deg, rgba(255,255,255,0.08) 0%, transparent 55%, rgba(255,255,255,0.02) 100%)",
+                }}
+              />
+
+              {/* Buttons – left volume */}
+              {[
+                ["22%", "8%"],
+                ["33%", "12%"],
+                ["47%", "12%"],
+              ].map(([top, h], i) => (
+                <div
+                  key={i}
+                  className="absolute"
+                  style={{
+                    left: "-3px",
+                    top,
+                    width: 3,
+                    height: h,
+                    background: "#1a1a1a",
+                    borderRadius: "2px 0 0 2px",
+                    boxShadow: "inset 0 1px 0 rgba(255,255,255,0.08)",
+                  }}
+                />
+              ))}
+              {/* Button – right power */}
+              <div
                 className="absolute"
                 style={{
-                  left: "-3px",
-                  top,
+                  right: "-3px",
+                  top: "28%",
                   width: 3,
-                  height: h,
+                  height: "16%",
                   background: "#1a1a1a",
-                  borderRadius: "2px 0 0 2px",
+                  borderRadius: "0 2px 2px 0",
                   boxShadow: "inset 0 1px 0 rgba(255,255,255,0.08)",
                 }}
               />
-            ))}
-            {/* Button – right power */}
-            <div
-              className="absolute"
-              style={{
-                right: "-3px",
-                top: "28%",
-                width: 3,
-                height: "16%",
-                background: "#1a1a1a",
-                borderRadius: "0 2px 2px 0",
-                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.08)",
-              }}
-            />
 
-            {/* Screen */}
-            <div
-              className="relative flex-1 mx-[4%] mt-[2%] mb-[1%] overflow-hidden"
-              style={{
-                borderRadius: "clamp(20px, 4.5%, 38px)",
-                background: "#000",
-                boxShadow: "inset 0 0 24px rgba(0,0,0,0.9)",
-              }}
-            >
-              {/* Dynamic Island */}
+              {/* Screen */}
               <div
-                className="absolute z-10 flex items-center justify-between"
+                className="relative flex-1 mx-[4%] mt-[2%] mb-[1%] overflow-hidden"
                 style={{
-                  top: "clamp(6px, 2.5%, 12px)",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  width: "clamp(65px, 27%, 100px)",
-                  height: "clamp(18px, 3.5%, 28px)",
+                  borderRadius: "clamp(20px, 4.5%, 38px)",
                   background: "#000",
-                  borderRadius: "999px",
-                  boxShadow: "0 0 0 1px rgba(255,255,255,0.06)",
-                  padding: "0 7px",
+                  boxShadow: "inset 0 0 24px rgba(0,0,0,0.9)",
                 }}
               >
+                {/* Dynamic Island */}
                 <div
+                  className="absolute z-10 flex items-center justify-between"
                   style={{
-                    width: 5,
-                    height: 5,
-                    background: "#0e0e0e",
-                    borderRadius: "50%",
-                    boxShadow: "inset 0 0 2px rgba(255,255,255,0.08)",
+                    top: "clamp(6px, 2.5%, 12px)",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    width: "clamp(65px, 27%, 100px)",
+                    height: "clamp(18px, 3.5%, 28px)",
+                    background: "#000",
+                    borderRadius: "999px",
+                    boxShadow: "0 0 0 1px rgba(255,255,255,0.06)",
+                    padding: "0 7px",
                   }}
+                >
+                  <div
+                    style={{
+                      width: 5,
+                      height: 5,
+                      background: "#0e0e0e",
+                      borderRadius: "50%",
+                      boxShadow: "inset 0 0 2px rgba(255,255,255,0.08)",
+                    }}
+                  />
+                  <div
+                    style={{
+                      width: 7,
+                      height: 7,
+                      background: "#040404",
+                      borderRadius: "50%",
+                      boxShadow: "0 0 5px rgba(80,140,255,0.25)",
+                    }}
+                  />
+                </div>
+
+                {/* Video */}
+                <video
+                  src={videoSrc}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
+
+                {/* Screen glass shimmer */}
                 <div
+                  className="absolute inset-0 pointer-events-none"
                   style={{
-                    width: 7,
-                    height: 7,
-                    background: "#040404",
-                    borderRadius: "50%",
-                    boxShadow: "0 0 5px rgba(80,140,255,0.25)",
+                    background:
+                      "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%, rgba(255,255,255,0.015) 100%)",
                   }}
                 />
               </div>
 
-              {/* Video */}
-              <video
-                src={videoSrc}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-
-              {/* Screen glass shimmer */}
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%, rgba(255,255,255,0.015) 100%)",
-                }}
-              />
+              {/* Home bar */}
+              <div className="flex justify-center pb-[3%]">
+                <div
+                  style={{
+                    width: "28%",
+                    height: 4,
+                    background: "rgba(255,255,255,0.18)",
+                    borderRadius: 2,
+                  }}
+                />
+              </div>
             </div>
 
-            {/* Home bar */}
-            <div className="flex justify-center pb-[3%]">
-              <div
-                style={{
-                  width: "28%",
-                  height: 4,
-                  background: "rgba(255,255,255,0.18)",
-                  borderRadius: 2,
-                }}
-              />
-            </div>
+            {/* Shadow on floor */}
+            <div
+              className="absolute pointer-events-none"
+              style={{
+                bottom: "-10%",
+                left: "10%",
+                right: "10%",
+                height: "8%",
+                background: "radial-gradient(ellipse, rgba(0,0,0,0.45) 0%, transparent 70%)",
+                filter: "blur(14px)",
+              }}
+            />
           </div>
-
-          {/* Shadow on floor */}
+        ) : (
+          /* ── Laptop ── */
           <div
-            className="absolute pointer-events-none"
+            ref={deviceRef}
             style={{
-              bottom: "-10%",
-              left: "10%",
-              right: "10%",
-              height: "8%",
-              background:
-                "radial-gradient(ellipse, rgba(0,0,0,0.45) 0%, transparent 70%)",
-              filter: "blur(14px)",
+              width: "clamp(320px, 65vw, 820px)",
+              aspectRatio: "1.6",
+              transformStyle: "preserve-3d",
+              willChange: "transform, opacity",
+              position: "relative",
+              top: "10%",
             }}
-          />
-        </div>
+          >
+            {/* Laptop Screen / Lid */}
+            <div
+              className="w-full relative bg-neutral-950"
+              style={{
+                aspectRatio: "1.6",
+                borderRadius: "16px 16px 0 0",
+                border: "12px solid #161616",
+                borderBottomWidth: "16px",
+                boxShadow: "inset 0 0 10px rgba(0,0,0,0.8), 0 20px 40px rgba(0,0,0,0.5)",
+                position: "relative",
+              }}
+            >
+              {/* Screen Camera */}
+              <div
+                className="absolute top-[-8px] left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-neutral-800 flex items-center justify-center z-20"
+                style={{ border: "1px solid #111" }}
+              >
+                <div className="w-1 h-1 bg-[#1a1a24] rounded-full" />
+              </div>
+
+              {/* Video Screen */}
+              <div className="w-full h-full relative overflow-hidden bg-black rounded-sm">
+                <video
+                  src={videoSrc}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                {/* Screen glass reflection */}
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 45%, rgba(255,255,255,0.015) 100%)",
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Laptop Base */}
+            <div
+              className="relative z-10"
+              style={{
+                height: "12px",
+                width: "112%",
+                marginLeft: "-6%",
+                background: "linear-gradient(to bottom, #2d2d30 0%, #1e1e1f 40%, #0d0d0e 100%)",
+                borderTop: "1px solid #4a4a4d",
+                borderRadius: "0 0 12px 12px",
+                boxShadow: "0 15px 30px rgba(0,0,0,0.7), 0 4px 6px rgba(0,0,0,0.5)",
+                position: "relative",
+              }}
+            >
+              {/* Trackpad */}
+              <div
+                className="absolute left-1/2 -translate-x-1/2 top-[1px]"
+                style={{
+                  width: "22%",
+                  height: "6px",
+                  background: "#151516",
+                  borderRadius: "0 0 3px 3px",
+                  border: "1px solid rgba(255,255,255,0.05)",
+                  borderTop: "none",
+                }}
+              />
+            </div>
+
+            {/* Shadow under laptop base */}
+            <div
+              className="absolute pointer-events-none"
+              style={{
+                bottom: "-15%",
+                left: "-5%",
+                right: "-5%",
+                height: "12%",
+                background: "radial-gradient(ellipse, rgba(0,0,0,0.65) 0%, transparent 70%)",
+                filter: "blur(18px)",
+              }}
+            />
+          </div>
+        )}
 
         {/* ── Scroll hint ── */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 pointer-events-none">

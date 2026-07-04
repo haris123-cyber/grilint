@@ -17,7 +17,6 @@ import { Vidio } from "@/components/site/Vidio";
 
 gsap.registerPlugin(ScrollTrigger);
 
-
 const services = [
   {
     num: "01",
@@ -181,14 +180,7 @@ function Hero() {
 }
 
 function Marquee() {
-  const words = [
-    "Strategy",
-    "Brand",
-    "Web",
-    "Performance",
-    "Content",
-    "Motion",
-  ];
+  const words = ["Strategy", "Brand", "Web", "Performance", "Content", "Motion"];
   const row = [...words, ...words, ...words, ...words];
   return (
     <div className="relative overflow-hidden bg-background border-y border-border/40">
@@ -199,20 +191,22 @@ function Marquee() {
       {/* Ambient glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-24 bg-mint/8 blur-[80px] pointer-events-none rounded-full" />
 
-      {/* Left & right fade masks */}
-      <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+      <div className="px-6 md:px-10">
+        <div className="relative max-w-7xl mx-auto overflow-hidden py-6 md:py-8">
+          {/* Left & right fade masks */}
+          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
-      <div className="flex items-center overflow-hidden py-6 md:py-8">
-        <div className="flex gap-0 marquee whitespace-nowrap items-center">
-          {row.map((w, i) => (
-            <span key={i} className="flex items-center">
-              <span className="text-display text-3xl md:text-5xl uppercase tracking-[0.15em] text-foreground/80 hover:text-mint transition-colors duration-300 cursor-default px-8 md:px-12">
-                {w}
+          <div className="flex gap-0 marquee whitespace-nowrap items-center">
+            {row.map((w, i) => (
+              <span key={i} className="flex items-center">
+                <span className="text-display text-3xl md:text-5xl uppercase tracking-[0.15em] text-foreground/80 hover:text-mint transition-colors duration-300 cursor-default px-8 md:px-12">
+                  {w}
+                </span>
+                <span className="w-px h-5 md:h-7 bg-mint/30 shrink-0" />
               </span>
-              <span className="w-px h-5 md:h-7 bg-mint/30 shrink-0" />
-            </span>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -221,31 +215,58 @@ function Marquee() {
 
 function Services() {
   return (
-    <section id="services" className="relative px-6 md:px-10 py-24 md:py-36">
-      <div className="grid grid-cols-12 gap-8 items-end mb-16">
-        <div className="col-span-12 md:col-span-7">
-          <p className="text-xs uppercase tracking-[0.3em] text-mint mb-4">[ 02 — What we do ]</p>
-          <h2 className="text-display text-6xl md:text-8xl">
-            Six rooms.
-            <br />
-            <span className="text-mint font-space-grotesk font-light">One workshop.</span>
-          </h2>
+    <section id="services" className="relative px-6 md:px-10 pt-20 md:pt-28 pb-24 md:pb-36">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-12 gap-8 items-end mb-16">
+          <div className="col-span-12 md:col-span-7">
+            <h2 className="text-display text-6xl md:text-8xl">
+              Six rooms.
+              <br />
+              <span className="text-mint font-space-grotesk font-light">One workshop.</span>
+            </h2>
+          </div>
+          <p className="col-span-12 md:col-span-4 md:col-start-9 text-foreground/70">
+            We don't sell decks. We sell traction. Pick a room or knock down the walls — every
+            engagement is built around the outcome you actually need.
+          </p>
         </div>
-        <p className="col-span-12 md:col-span-4 md:col-start-9 text-foreground/70">
-          We don't sell decks. We sell traction. Pick a room or knock down the walls — every
-          engagement is built around the outcome you actually need.
-        </p>
-      </div>
 
-      {/* Mobile Auto-scrolling Marquee */}
-      <div className="md:hidden flex overflow-hidden border-y border-border -mx-6">
-        <div className="flex marquee w-max hover:[animation-play-state:paused]">
-          {[...services, ...services].map((s, i) => (
-            <div
-              key={s.num + i}
-              className="shrink-0 w-[85vw] bg-background border-r border-border p-8 group hover:bg-forest/40 transition-all duration-500"
+        {/* Mobile Auto-scrolling Marquee */}
+        <div className="md:hidden flex overflow-hidden border-y border-border -mx-6">
+          <div className="flex marquee w-max hover:[animation-play-state:paused]">
+            {[...services, ...services].map((s, i) => (
+              <div
+                key={s.num + i}
+                className="shrink-0 w-[85vw] bg-background border-r border-border p-8 group hover:bg-forest/40 transition-all duration-500"
+              >
+                <div className="flex items-start justify-between mb-8">
+                  <span className="text-mint text-sm tracking-[0.2em]">{s.num}</span>
+                  <span
+                    aria-hidden
+                    className="text-mint opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition duration-500"
+                  >
+                    →
+                  </span>
+                </div>
+                <h3 className="text-display text-4xl mb-4 group-hover:text-mint transition">
+                  {s.title}
+                </h3>
+                <p className="text-foreground/70 leading-relaxed text-sm">{s.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop Grid */}
+        <div className="hidden md:grid md:grid-cols-3 gap-px bg-border">
+          {services.map((s, i) => (
+            <Reveal
+              as="article"
+              delay={i * 80}
+              key={s.num}
+              className={`group relative bg-background p-8 md:p-10 hover:bg-forest/40 transition-all duration-500 ${i % 2 ? "md:translate-y-6" : ""}`}
             >
-              <div className="flex items-start justify-between mb-8">
+              <div className="flex items-start justify-between mb-10">
                 <span className="text-mint text-sm tracking-[0.2em]">{s.num}</span>
                 <span
                   aria-hidden
@@ -254,39 +275,13 @@ function Services() {
                   →
                 </span>
               </div>
-              <h3 className="text-display text-4xl mb-4 group-hover:text-mint transition">
+              <h3 className="text-display text-4xl md:text-5xl mb-4 group-hover:text-mint transition">
                 {s.title}
               </h3>
-              <p className="text-foreground/70 leading-relaxed text-sm">{s.body}</p>
-            </div>
+              <p className="text-foreground/70 leading-relaxed">{s.body}</p>
+            </Reveal>
           ))}
         </div>
-      </div>
-
-      {/* Desktop Grid */}
-      <div className="hidden md:grid md:grid-cols-3 gap-px bg-border">
-        {services.map((s, i) => (
-          <Reveal
-            as="article"
-            delay={i * 80}
-            key={s.num}
-            className={`group relative bg-background p-8 md:p-10 hover:bg-forest/40 transition-all duration-500 ${i % 2 ? "md:translate-y-6" : ""}`}
-          >
-            <div className="flex items-start justify-between mb-10">
-              <span className="text-mint text-sm tracking-[0.2em]">{s.num}</span>
-              <span
-                aria-hidden
-                className="text-mint opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition duration-500"
-              >
-                →
-              </span>
-            </div>
-            <h3 className="text-display text-4xl md:text-5xl mb-4 group-hover:text-mint transition">
-              {s.title}
-            </h3>
-            <p className="text-foreground/70 leading-relaxed">{s.body}</p>
-          </Reveal>
-        ))}
       </div>
     </section>
   );
@@ -294,35 +289,65 @@ function Services() {
 
 function Projects() {
   return (
-    <section id="work" className="px-6 md:px-10 py-24 md:py-36 bg-ink/40 border-y border-border">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-        <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-mint mb-4">
-            [ 03 — Selected work ]
-          </p>
-          <h2 className="text-display text-6xl md:text-8xl">
-            Receipts,
-            <br />
-            <span className="text-mint  font-space-grotesk font-light">not promises.</span>
-          </h2>
+    <section
+      id="work"
+      className="px-6 md:px-10 pt-20 md:pt-28 pb-24 md:pb-36 bg-ink/40 border-y border-border"
+    >
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+          <div>
+            <h2 className="text-display text-6xl md:text-8xl">
+              Receipts,
+              <br />
+              <span className="text-mint  font-space-grotesk font-light">not promises.</span>
+            </h2>
+          </div>
+          <Link
+            to="/work"
+            className="inline-flex items-center gap-3 rounded-full border border-foreground/30 px-5 py-3 text-xs uppercase tracking-[0.2em] hover:border-mint hover:text-mint transition w-fit"
+          >
+            Full case studies
+            <span aria-hidden>↗</span>
+          </Link>
         </div>
-        <Link
-          to="/work"
-          className="inline-flex items-center gap-3 rounded-full border border-foreground/30 px-5 py-3 text-xs uppercase tracking-[0.2em] hover:border-mint hover:text-mint transition w-fit"
-        >
-          Full case studies
-          <span aria-hidden>↗</span>
-        </Link>
-      </div>
 
-      {/* Mobile Auto-scrolling Staggered Marquee */}
-      <div className="md:hidden flex overflow-hidden py-12 -mx-6 px-4">
-        <div className="flex gap-4 marquee w-max hover:[animation-play-state:paused]">
-          {[...projects, ...projects, ...projects, ...projects].map((p, i) => (
-            <div
-              key={i}
-              className={`shrink-0 w-[60vw] h-[280px] ${i % 2 === 0 ? "-mt-8 mb-8" : "mt-8 -mb-8"}`}
-            >
+        {/* Mobile Auto-scrolling Staggered Marquee */}
+        <div className="md:hidden flex overflow-hidden py-12 -mx-6 px-4">
+          <div className="flex gap-4 marquee w-max hover:[animation-play-state:paused]">
+            {[...projects, ...projects, ...projects, ...projects].map((p, i) => (
+              <div
+                key={i}
+                className={`shrink-0 w-[60vw] h-[280px] ${i % 2 === 0 ? "-mt-8 mb-8" : "mt-8 -mb-8"}`}
+              >
+                <Link
+                  to="/work"
+                  className={`group relative block h-full overflow-hidden rounded-2xl bg-card border border-border ${p.rotate} hover:rotate-0 transition-transform duration-500`}
+                >
+                  <img
+                    src={p.img}
+                    alt={p.title}
+                    loading="lazy"
+                    className="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
+                  <div className="absolute inset-0 p-5 flex flex-col justify-between">
+                    <span className="self-start text-[10px] uppercase tracking-[0.3em] bg-background/80 backdrop-blur px-3 py-1 rounded-full border border-border">
+                      {p.tag}
+                    </span>
+                    <div className="flex items-end justify-between gap-4">
+                      <h3 className="text-display text-2xl">{p.title}</h3>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop Grid */}
+        <div className="hidden md:grid md:grid-cols-12 md:auto-rows-[18rem] gap-6">
+          {projects.map((p, i) => (
+            <Reveal key={p.title} delay={i * 100} className={`${p.span}`}>
               <Link
                 to="/work"
                 className={`group relative block h-full overflow-hidden rounded-2xl bg-card border border-border ${p.rotate} hover:rotate-0 transition-transform duration-500`}
@@ -334,60 +359,40 @@ function Projects() {
                   className="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
-                <div className="absolute inset-0 p-5 flex flex-col justify-between">
-                  <span className="self-start text-[10px] uppercase tracking-[0.3em] bg-background/80 backdrop-blur px-3 py-1 rounded-full border border-border">
+                <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-between">
+                  <span className="self-start text-[10px] uppercase tracking-[0.3em] bg-background/60 backdrop-blur px-3 py-1 rounded-full border border-border">
                     {p.tag}
                   </span>
                   <div className="flex items-end justify-between gap-4">
-                    <h3 className="text-display text-2xl">{p.title}</h3>
+                    <h3 className="text-display text-3xl md:text-5xl">{p.title}</h3>
+                    <span className="text-mint text-xs uppercase tracking-[0.2em] opacity-0 group-hover:opacity-100 transition">
+                      0{i + 1} / 04 →
+                    </span>
                   </div>
                 </div>
               </Link>
-            </div>
+            </Reveal>
           ))}
         </div>
-      </div>
-
-      {/* Desktop Grid */}
-      <div className="hidden md:grid md:grid-cols-12 md:auto-rows-[18rem] gap-6">
-        {projects.map((p, i) => (
-          <Reveal key={p.title} delay={i * 100} className={`${p.span}`}>
-            <Link
-              to="/work"
-              className={`group relative block h-full overflow-hidden rounded-2xl bg-card border border-border ${p.rotate} hover:rotate-0 transition-transform duration-500`}
-            >
-              <img
-                src={p.img}
-                alt={p.title}
-                loading="lazy"
-                className="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
-              <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-between">
-                <span className="self-start text-[10px] uppercase tracking-[0.3em] bg-background/60 backdrop-blur px-3 py-1 rounded-full border border-border">
-                  {p.tag}
-                </span>
-                <div className="flex items-end justify-between gap-4">
-                  <h3 className="text-display text-3xl md:text-5xl">{p.title}</h3>
-                  <span className="text-mint text-xs uppercase tracking-[0.2em] opacity-0 group-hover:opacity-100 transition">
-                    0{i + 1} / 04 →
-                  </span>
-                </div>
-              </div>
-            </Link>
-          </Reveal>
-        ))}
       </div>
     </section>
   );
 }
 
 function Collabs() {
-  const row1 = [...collabs.slice(0, 6), ...collabs.slice(0, 6), ...collabs.slice(0, 6), ...collabs.slice(0, 6)];
+  const row1 = [
+    ...collabs.slice(0, 6),
+    ...collabs.slice(0, 6),
+    ...collabs.slice(0, 6),
+    ...collabs.slice(0, 6),
+  ];
   const row2 = [...collabs.slice(6), ...collabs.slice(6), ...collabs.slice(6), ...collabs.slice(6)];
 
   return (
-    <section id="studio" className="relative overflow-hidden bg-ink py-20 md:py-32">
+    <section
+      id="studio"
+      className="relative overflow-hidden bg-ink pt-20 md:pt-28 pb-24 md:pb-36 border-b border-border/30"
+    >
       {/* Dotted world map background */}
       <div className="absolute inset-0 opacity-[0.12] pointer-events-none">
         <svg viewBox="0 0 1200 600" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
@@ -436,14 +441,10 @@ function Collabs() {
       <div className="relative z-10 px-6 md:px-10 mb-12 md:mb-20">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-mint mb-4">
-              [ 04 — In good company ]
-            </p>
+
             <h2 className="text-display text-5xl md:text-7xl lg:text-8xl">
-              Brands that{" "}
-              <span className="text-mint">trust us</span>
-              <br className="hidden md:block" />
-              {" "}with the mic.
+              Brands that <span className="text-mint">trust us</span>
+              <br className="hidden md:block" /> with the mic.
             </h2>
           </div>
           <p className="text-foreground/50 text-sm md:text-base max-w-xs leading-relaxed hidden md:block">
@@ -453,38 +454,42 @@ function Collabs() {
       </div>
 
       {/* Marquee row 1 — scrolls left */}
-      <div className="relative z-10 overflow-hidden mb-3 md:mb-4">
-        {/* Edge fades */}
-        <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-ink to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-ink to-transparent z-10 pointer-events-none" />
+      <div className="relative z-10 px-6 md:px-10 mb-3 md:mb-4">
+        <div className="relative max-w-7xl mx-auto overflow-hidden">
+          {/* Edge fades */}
+          <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-ink to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-ink to-transparent z-10 pointer-events-none" />
 
-        <div className="flex marquee w-max hover:[animation-play-state:paused]">
-          {row1.map((name, i) => (
-            <span key={`r1-${i}`} className="flex items-center shrink-0">
-              <span className="text-display text-3xl md:text-5xl lg:text-6xl uppercase tracking-[0.08em] text-foreground/70 hover:text-mint transition-colors duration-300 cursor-default px-6 md:px-10">
-                {name}
+          <div className="flex marquee w-max hover:[animation-play-state:paused]">
+            {row1.map((name, i) => (
+              <span key={`r1-${i}`} className="flex items-center shrink-0">
+                <span className="text-display text-3xl md:text-5xl lg:text-6xl uppercase tracking-[0.08em] text-foreground/70 hover:text-mint transition-colors duration-300 cursor-default px-6 md:px-10">
+                  {name}
+                </span>
+                <span className="w-px h-6 md:h-9 bg-mint/25 shrink-0" aria-hidden />
               </span>
-              <span className="w-px h-6 md:h-9 bg-mint/25 shrink-0" aria-hidden />
-            </span>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Marquee row 2 — scrolls right (reverse) */}
-      <div className="relative z-10 overflow-hidden">
-        {/* Edge fades */}
-        <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-ink to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-ink to-transparent z-10 pointer-events-none" />
+      <div className="relative z-10 px-6 md:px-10">
+        <div className="relative max-w-7xl mx-auto overflow-hidden">
+          {/* Edge fades */}
+          <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-ink to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-ink to-transparent z-10 pointer-events-none" />
 
-        <div className="flex marquee-reverse w-max hover:[animation-play-state:paused]">
-          {row2.map((name, i) => (
-            <span key={`r2-${i}`} className="flex items-center shrink-0">
-              <span className="text-display text-3xl md:text-5xl lg:text-6xl uppercase tracking-[0.08em] text-foreground/40 hover:text-mint transition-colors duration-300 cursor-default px-6 md:px-10">
-                {name}
+          <div className="flex marquee-reverse w-max hover:[animation-play-state:paused]">
+            {row2.map((name, i) => (
+              <span key={`r2-${i}`} className="flex items-center shrink-0">
+                <span className="text-display text-3xl md:text-5xl lg:text-6xl uppercase tracking-[0.08em] text-foreground/40 hover:text-mint transition-colors duration-300 cursor-default px-6 md:px-10">
+                  {name}
+                </span>
+                <span className="w-px h-6 md:h-9 bg-mint/15 shrink-0" aria-hidden />
               </span>
-              <span className="w-px h-6 md:h-9 bg-mint/15 shrink-0" aria-hidden />
-            </span>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -493,10 +498,10 @@ function Collabs() {
 
 function Contact() {
   return (
-    <section id="contact" className="relative px-6 md:px-10 py-24 md:py-36 noise">
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10">
+    <section id="contact" className="relative px-6 md:px-10 pt-20 md:pt-28 pb-24 md:pb-36 noise">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10">
         <div className="col-span-1 md:col-span-6">
-          <p className="text-xs uppercase tracking-[0.3em] text-mint mb-4">[ 05 — Say hi ]</p>
+
           <h2 className="text-display text-6xl md:text-8xl leading-[0.85]">
             Lowkey
             <br />

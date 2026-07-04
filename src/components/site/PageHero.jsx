@@ -8,7 +8,7 @@ export function PageHero({ eyebrow, title, intro }) {
         className="pointer-events-none absolute -top-32 -right-32 size-[40rem] rounded-full bg-mint/20 blur-3xl float-y"
       />
 
-      <div className="relative grid grid-cols-12 gap-y-6">
+      <div className="max-w-7xl mx-auto relative grid grid-cols-12 gap-y-6">
         <Reveal className="col-span-12 md:col-span-6">
           <p className="text-xs uppercase tracking-[0.3em] text-mint mb-6">{eyebrow}</p>
         </Reveal>

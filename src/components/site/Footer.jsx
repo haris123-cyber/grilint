@@ -31,7 +31,7 @@ export function Footer() {
   return (
     <footer ref={footerRef} className="w-full h-screen px-6 md:px-10 pt-24 pb-10 border-t border-border bg-forest/20 noise overflow-hidden flex flex-col justify-between relative">
       <div className="flex-1 flex flex-col justify-center">
-        <h2 className="text-display text-[22vw] md:text-[16vw] leading-[0.85] text-mint mix-blend-screen footer-anim">
+        <h2 className="text-display text-[22vw] md:text-[16vw] leading-[0.85] text-mint text-display text-7xl md:text-9xl leading-[0.8] tracking-tight uppercase font-bold text-foreground">
           BIG VIBES.
           <br />
           <span className="text-foreground">BIGGER IDEAS.</span>

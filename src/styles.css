@@ -8,7 +8,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-
 /*
  * Design system definition.
  *
@@ -66,7 +65,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --font-display: "Bebas Neue", "Impact", sans-serif;
   --font-sans: "Barlow", system-ui, sans-serif;
-  --font-space-grotesk: "Space Grotesk", sans-serif;
+  --font-space-grotesk: "Chewy", system-ui;
   --color-ink: var(--ink);
   --color-mint: var(--mint);
   --color-mint-glow: var(--mint-glow);
@@ -76,7 +75,7 @@
 :root {
   --radius: 0.5rem;
   /* Locked palette: #0d1b2a ink, #1b4332 forest, #2dd4a8 mint, #73ffb8 mint-glow */
-  --ink: oklch(0.18 0.04 245);
+  --ink: oklch(14.874% 0.02877 243.683);
   --forest: oklch(0.33 0.07 158);
   --mint: oklch(75.667% 0.2453 143.036);
   --mint-glow: oklch(76.969% 0.2412 143.23);
@@ -192,7 +191,7 @@
 }
 
 @utility marquee {
-  animation: marquee 40s linear infinite;
+  animation: marquee 60s linear infinite;
 }
 
 @keyframes marquee {
@@ -202,6 +201,20 @@
 
   to {
     transform: translateX(-50%);
+  }
+}
+
+@utility marquee-reverse {
+  animation: marquee-reverse 60s linear infinite;
+}
+
+@keyframes marquee-reverse {
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0);
   }
 }
 
@@ -299,4 +312,10 @@
 
 .will-reveal.is-visible {
   animation: reveal-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+
+.chewy-regular {
+  font-family: "Chewy", system-ui;
+  font-weight: 400;
+  font-style: normal;
 }

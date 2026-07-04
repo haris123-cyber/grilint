@@ -7,7 +7,6 @@ import project2 from "@/assets/project-2.jpg";
 import project3 from "@/assets/project-3.jpg";
 import project4 from "@/assets/project-4.jpg";
 
-
 const work = [
   {
     img: project1,
@@ -57,7 +56,7 @@ export default function WorkPage() {
   return (
     <PageLayout showTransition={false}>
       <PageHero
-        eyebrow="[ 01 — Selected work ]"
+
         title={
           <>
             <span className="block">RECEIPTS,</span>
@@ -70,7 +69,7 @@ export default function WorkPage() {
       />
 
       <section className="px-6 md:px-10 pb-32">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
           {work.map((p, i) => (
             <Reveal key={p.title + i} delay={(i % 2) * 120} className={i % 2 ? "md:mt-16" : ""}>
               <article className="group relative overflow-hidden rounded-3xl border border-border bg-card tilt-hover">
@@ -103,9 +102,8 @@ export default function WorkPage() {
               </article>
             </Reveal>
           ))}
-        </div>
-
-        <Reveal className="mt-24 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-t border-border pt-10">
+        </div>{" "}
+        <Reveal className="max-w-7xl mx-auto mt-24 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-t border-border pt-10">
           <p className="text-display text-4xl md:text-6xl">
             Got a brand that deserves the next slot?
           </p>
@@ -117,7 +115,6 @@ export default function WorkPage() {
           </Link>
         </Reveal>
       </section>
-
     </PageLayout>
   );
 }
